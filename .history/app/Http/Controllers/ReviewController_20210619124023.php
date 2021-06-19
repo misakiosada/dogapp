@@ -81,18 +81,7 @@ class ReviewController extends Controller
      */
     public function update(Request $request, Review $review)
     {
-
-        $review = new Review();
-        $review->place_name = request('place_name');
-        $review->address = request('address');
-        $review->category_name = request('category_name');
-        $review->starts = request('stars');
-        $review->content = request('content');
-        $review->user_id = Auth::id();
-        $review->save();
-
-        $reviews = Auth::user()->reviews;
-
+        //
     }
 
     /**
@@ -103,10 +92,6 @@ class ReviewController extends Controller
      */
     public function destroy(Review $review)
     {
-        $review->delete();
-
-        $reviews = Auth::user()->reviews;
-
-        return response()->json($reviews);
+        //
     }
 }
