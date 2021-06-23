@@ -19,7 +19,6 @@ class CreateReviewsTable extends Migration
             $table->integer('place_id');
             $table->integer('stars');
             $table->text('content');
-            $table->blob('image');
             $table->timestamps('update_at');
             $table->timestamps('created_at');
             $table->timestamps('deleted_at');
