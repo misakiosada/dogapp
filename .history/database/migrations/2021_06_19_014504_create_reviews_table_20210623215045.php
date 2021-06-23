@@ -20,8 +20,8 @@ class CreateReviewsTable extends Migration
             $table->integer('stars');
             $table->text('content');
             $table->string('image');
-            $table->timestamp('updated_at')->useCurrent()->nullable();
-            $table->timestamp('created_at')->useCurrent()->nullable();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
             $table->softDeletes();
         });
     }
