@@ -12,6 +12,10 @@ class CategoriesTableSeeder extends Seeder
      */
     public function run()
     {
+        $names = [
+            'Cafe', 'Restaurant', 'Park', 'Hotel', 'Beach', 'Hiking', 'Shop', 'Other'
+            ];
+
             Category::insert([
                 [ 'name' => 'Cafe'],
                 [ 'name' => 'Restaurant'],

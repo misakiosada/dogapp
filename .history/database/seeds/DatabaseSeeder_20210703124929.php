@@ -14,11 +14,5 @@ class DatabaseSeeder extends Seeder
         $this->call(CategoriesTableSeeder::class);
         $this->call(StatesSeeder::class);
 
-/*
-シーダーファイルの数が増えてくるとデータベースを初期化するたびにファイルの数だけコマンドを実行しなければならないため、
-上記の記載で複数のシーダーファイルをまとめて実行できる。
-
-*/
-
     }
 }
