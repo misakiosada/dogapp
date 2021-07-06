@@ -22,7 +22,7 @@ class ReviewController extends Controller
         $categories = Category::all();
         $states = State::all();
 
-        return response()->json($reviews, $categories, $states);
+        return response()->json($reviews, $categories);
     }
 
     /**
@@ -98,7 +98,6 @@ class ReviewController extends Controller
 
         $reviews = Auth::user()->reviews;
 
-        return response()->json($reviews);
     }
 
     /**

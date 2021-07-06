@@ -98,7 +98,6 @@ class ReviewController extends Controller
 
         $reviews = Auth::user()->reviews;
 
-        return response()->json($reviews);
     }
 
     /**
