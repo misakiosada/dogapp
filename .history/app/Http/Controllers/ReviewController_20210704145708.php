@@ -90,6 +90,7 @@ class ReviewController extends Controller
         $review->user_id = Auth::id();
         $review->save();
 
+
         $reviews = Auth::user()->reviews;
 
     }

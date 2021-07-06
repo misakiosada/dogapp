@@ -37,7 +37,7 @@ class ReviewController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Place $place, Request $request)
+    public function store(Request $request)
     {
         $review = new Review();
         $review->place_id = $place->id;
@@ -83,10 +83,11 @@ class ReviewController extends Controller
     {
 
         $review = new Review();
-        $review->place_id = $place->id;
+        $review->place_name = request('place_name');
+        $review->address = request('address');
+        $review->category_name = request('category_name');
         $review->starts = request('stars');
         $review->content = request('content');
-        $review->image = request('image');
         $review->user_id = Auth::id();
         $review->save();
 
