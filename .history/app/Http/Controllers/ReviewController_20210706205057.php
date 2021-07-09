@@ -19,7 +19,6 @@ class ReviewController extends Controller
     public function index()
     {
         $reviews = Auth::user()->reviews;
-
         $categories = Category::all();
         $states = State::all();
 
