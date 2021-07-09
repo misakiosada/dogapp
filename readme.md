@@ -73,21 +73,18 @@ The Laravel framework is open-source software licensed under the [MIT license](h
 
 ## 環境構築
 ### Laravel
-1. homebrewのinstall *HomebrewはMac用のパッケージ管理システム。
-2. PHPをインストール
-   `$brew install php@7.3` @以下でバージョン指定
-3. composer (PHPのパッケージ管理システム)をインストール 
-   `$brew install homebrew/core/composer`
+1. homebrewをinstall *HomebrewはMac用のパッケージ管理システム。
+2. `$brew install php@7.3` PHPをインストール *@以下でバージョン指定
+3. `$brew install homebrew/core/composer` composer (PHPのパッケージ管理システム)をインストール 
 4. PATHを通す  
-5. Valetをインストール
-   `$composer global require laravel/valet`
-   `$valet install`
-6. Laravel install
-   `$composer global require "laravel/installer"`
+5. `$composer global require laravel/valet`
+   `$valet install` Valetをインストール
+6. `$composer global require "laravel/installer"` Laravelをインストール
+  
 
 #### プロジェクト作成
  1. `$composer create-project laravel/laravel=5.8 Laravel_app` Laravel_appの部分はプロジェクト名
- 2. `$cd Laravel_app` 作成したLaravel_appディレクトリへ移動
+ 2. `$cd Laravel_app` 作成したプロジェクト（Laravel_app）のディレクトリへ移動
  3. `$php artisan -V` バージョンを確認
 
 ### mysql
@@ -100,13 +97,13 @@ The Laravel framework is open-source software licensed under the [MIT license](h
 
 ### node
 1. `$brew install nodebrew`
-2. `$nodebrew install-binary latest` 最新版のインストール
+2. `$nodebrew install-binary latest` 最新版をインストール
 3. `$nodebrew list` インストール済みのリストを確認
 4. `$nodebrew use v16.0.0` 使用するバージョンを指定
 5. `$echo 'export PATH=$PATH:$HOME/.nodebrew/current/bin' >> ~/.bash_profile` パスを通す
 
 ### Sortable
-1. `$composer require rutorika/sortable`
+1. `$composer require rutorika/sortable` Sortableのインストール
 
 ## 環境変数の設定
 ### Laravel 
@@ -126,7 +123,7 @@ The Laravel framework is open-source software licensed under the [MIT license](h
 
 ## 注意
 ### Laravel
-- 下記のエラーが起きた場合は、`.env`のDBの記載が正しいか確認。
+- データベース設定の際に、下記のエラーが起きた場合は、`.env`のDBの記載が正しいか確認。
 ```
 Illuminate\Database\QueryException  : SQLSTATE[HY000] [2002] No such file or directory 
 (SQL: select * from information_schema.tables where table_schema = macdb and table_name = migrations and table_type = 'BASE TABLE')
@@ -137,8 +134,7 @@ Illuminate\Database\QueryException  : SQLSTATE[HY000] [2002] No such file or dir
 
 ### Sortable
  - インストールの際にエラーが発生した場合、バージョンの不一致の可能性が高いため、以下のコマンドでバージョンを指定してインストールする。
- -> `$composer require rutorika/sortable 7.0.0`　
-
+   `$composer require rutorika/sortable 7.0.0`　
 
 ## 参考リンク
 ### laravel
