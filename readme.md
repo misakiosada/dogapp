@@ -74,12 +74,12 @@ The Laravel framework is open-source software licensed under the [MIT license](h
 ## 環境構築
 ### Laravel
 1. homebrewをinstall *HomebrewはMac用のパッケージ管理システム。
-2. `$brew install php@7.3` PHPをインストール *@以下でバージョン指定
-3. `$brew install homebrew/core/composer` composer (PHPのパッケージ管理システム)をインストール 
-4. PATHを通す  
-5. `$composer global require laravel/valet`
-   `$valet install` Valetをインストール
-6. `$composer global require "laravel/installer"` Laravelをインストール
+2. PHPをインストール `$brew install php@7.3` @以下でバージョン指定
+4. composer(PHPのパッケージ管理システム)をインストール `$brew install homebrew/core/composer`
+5. PATHを通す  
+6. Valetをインストール 
+   `$composer global require laravel/valet``$valet install` 
+6. Laravelをインストール `$composer global require "laravel/installer"`
   
 
 #### プロジェクト作成
@@ -111,7 +111,7 @@ The Laravel framework is open-source software licensed under the [MIT license](h
 1. `.env`の編集
  ```php
    DB_CONNECTION=mysql
-   DB_HOST=localhost　→　127.0.0.1に変更
+   DB_HOST=127.0.0.1
    DB_PORT=3306
    DB_DATABASE=abc
    DB_USERNAME=mac
