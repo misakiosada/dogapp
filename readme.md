@@ -78,7 +78,8 @@ The Laravel framework is open-source software licensed under the [MIT license](h
 4. composer(PHPのパッケージ管理システム)をインストール `$brew install homebrew/core/composer`
 5. PATHを通す  
 6. Valetをインストール 
-   `$composer global require laravel/valet``$valet install` 
+   `$composer global require laravel/valet`
+   `$valet install` 
 6. Laravelをインストール `$composer global require "laravel/installer"`
   
 
