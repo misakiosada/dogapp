@@ -71,66 +71,85 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
 
-## Macでの環境構築　-Laravelインストールまで-
-1. homebrewのinstall - 
- - Homebrewのリンク:https://brew.sh/index_ja 
- - HomebrewはMac用のパッケージ管理システム。
+## 環境構築
+### Laravel
+1. homebrewのinstall /*HomebrewはMac用のパッケージ管理システム。
 2. PHPをインストール
- - brew install php@7.3      
- - @以下でバージョン指定
+ - '$brew install php@7.3'  /*@以下でバージョン指定
 3. composer (PHPのパッケージ管理システム)をインストール 
- - brew install homebrew/core/composer
+ - '$brew install homebrew/core/composer'
 4. PATHを通す  
- - 参考リンク:https://qiita.com/miya_sho/items/4b79c9a74fecb42768f6
 5. Valetをインストール
- - composer global require laravel/valet
- - valet install
+ - '$composer global require laravel/valet'
+ - '$valet install'
 6. Laravel install
-　- composer global require "laravel/installer"
-- 環境構築の参考リンク：https://coxcox.hatenablog.com/entry/2019/03/14/172143
+ - '$composer global require "laravel/installer"'
 
-## Laravelのプロジェクト作成
- 1. composer create-project laravel/laravel=5.8 Laravel_app
- - Laravel_appの部分はプロジェクト名
- 2. cd Laravel_app で移動し
- 3. php artisan -V でバージョンを確認
-- 参考リンク：https://qiita.com/miya_sho/items/6e6635555fcb0af9fa66
+#### プロジェクト作成
+ 1. '$composer create-project laravel/laravel=5.8 Laravel_app' /*Laravel_appの部分はプロジェクト名
+ 2. '$cd Laravel_app' /*作成したLaravel_appディレクトリへ移動
+ 3. '$php artisan -V' /*バージョンを確認
 
-## mysqlのインストールとデータベースの設定
-1. brew install mysql 
-2. mysql -V　でバージョンを確認
-3. mysql.server start　で起動をさせる
-4. mysql -uroot　rootユーザーでログイン
-5. mysql> create database abc;　でデータベースを作成abcはデータベースのファイル名
-6. mysql> create user mac@localhost identified by 'aaa'; ユーザー作成。macがユーザー名でaaaがパスワード
+### mysql
+1. '$brew install mysql'
+2. '$mysql -V'　/*バージョンを確認
+3. '$mysql.server start'　/*mysqlを起動をさせる
+4. '$mysql -uroot'　/*rootユーザーでログイン
+5. '$mysql> create database abc;'　/*データベースを作成abcはデータベースのファイル名
+6. '$mysql> create user mac@localhost identified by 'aaa';' /*ユーザー作成。macがユーザー名でaaaがパスワード
 
-- mysqlがうごかない時は mysql -u user-name -pでログインしてみる
-- 参考リンク：https://qiita.com/miya_sho/items/6e6635555fcb0af9fa66
+### node
+1. '$brew install nodebrew'
+2. '$nodebrew install-binary latest'　/*最新版のインストール
+3. '$nodebrew list'　/*インストール済みのリストを確認
+4. '$nodebrew use v16.0.0' */使用するバージョンを指定
+5. '$echo 'export PATH=$PATH:$HOME/.nodebrew/current/bin' >> ~/.bash_profile' /*パスを通す
 
-## Laravelとデータベースの紐付け
+### Sortable
+1. '$composer require rutorika/sortable'
+
+## 環境変数の設定
+### Laravel 
+#### データベースの紐付け
 1. .envファイルの編集
- - DB_CONNECTION=mysql
- - DB_HOST=localhost　→　127.0.0.1に変更
- - DB_PORT=3306
- - DB_DATABASE=abc
- - DB_USERNAME=mac
- - DB_PASSWORD=aaa
-2. php artisan config:cache
-3. php artisan cache:clear 
-4. php artisan migrate 
+ '''
+   DB_CONNECTION=mysql
+   DB_HOST=localhost　→　127.0.0.1に変更
+   DB_PORT=3306
+   DB_DATABASE=abc
+   DB_USERNAME=mac
+   DB_PASSWORD=aaa
+ '''
+2. '$php artisan config:cache'
+3. '$php artisan cache:clear'
+4. '$php artisan migrate'
 
-- Illuminate\Database\QueryException  : SQLSTATE[HY000] [2002] No such file or directory (SQL: select * from information_schema.tables where table_schema = macdb and table_name = migrations and table_type = 'BASE TABLE')
-- 上記のエラーが起きた場合は、.envのDBの記載が正しいか確認。
+## 注意
+### Laravel
+- 下記のエラーが起きた場合は、.envのDBの記載が正しいか確認。
+'''
+Illuminate\Database\QueryException  : SQLSTATE[HY000] [2002] No such file or directory (SQL: select * from information_schema.tables where table_schema = macdb and table_name = migrations and table_type = 'BASE TABLE')
+'''
 
-## npmコマンドをするために、node をインストール
-1. brew install nodebrew
-2. nodebrew install-binary latest　最新版のインストール
-3. nodebrew list　インストール済みのリストを確認
--  nodebrew use v16.0.0　使用するバージョンを指定
-4. パスを通す echo 'export PATH=$PATH:$HOME/.nodebrew/current/bin' >> ~/.bash_profile
-- 参考リンク：https://qiita.com/non0311/items/664cf74d9ff4bad9cf46
+### mysql 
+- mysqlが動かない時は、$mysql -u user-name -p でログインを試してみる
 
-## Sortableのインストール
- - composer require rutorika/sortable
- - エラーが発生した場合、バージョンの不一致の可能性が高い。
- - composer require rutorika/sortable 7.0.0　でバージョンを指定することが可能
+### Sortable
+ - インストールの際にエラーが発生した場合、バージョンの不一致の可能性が高いため、以下のコマンドでバージョンを指定してインストールする。
+ -> '$composer require rutorika/sortable 7.0.0'　
+
+
+## 参考リンク
+### laravel
+- [macでの環境構築全体](https://coxcox.hatenablog.com/entry/2019/03/14/172143)
+- [Homebrewのインストール](https://brew.sh/index_ja )
+- [Pathの通し方](https://qiita.com/miya_sho/items/4b79c9a74fecb42768f6)
+- [Laravelのプロジェクトの作成](https://qiita.com/miya_sho/items/6e6635555fcb0af9fa66)
+
+### mysql 
+- [mysqlのインストール](https://qiita.com/miya_sho/items/6e6635555fcb0af9fa66)
+
+### node
+[nodeのインストール](https://qiita.com/non0311/items/664cf74d9ff4bad9cf46)
+
+
