@@ -75,43 +75,43 @@ The Laravel framework is open-source software licensed under the [MIT license](h
 ### Laravel
 1. homebrewのinstall /*HomebrewはMac用のパッケージ管理システム。
 2. PHPをインストール
- - '$brew install php@7.3'  /*@以下でバージョン指定
+   `$brew install php@7.3`  /* @以下でバージョン指定
 3. composer (PHPのパッケージ管理システム)をインストール 
- - '$brew install homebrew/core/composer'
+   `$brew install homebrew/core/composer`
 4. PATHを通す  
 5. Valetをインストール
- - '$composer global require laravel/valet'
- - '$valet install'
+   `$composer global require laravel/valet`
+   `$valet install`
 6. Laravel install
- - '$composer global require "laravel/installer"'
+   `$composer global require "laravel/installer"`
 
 #### プロジェクト作成
- 1. '$composer create-project laravel/laravel=5.8 Laravel_app' /*Laravel_appの部分はプロジェクト名
- 2. '$cd Laravel_app' /*作成したLaravel_appディレクトリへ移動
- 3. '$php artisan -V' /*バージョンを確認
+ 1. `$composer create-project laravel/laravel=5.8 Laravel_app` /*Laravel_appの部分はプロジェクト名
+ 2. `$cd Laravel_app` /*作成したLaravel_appディレクトリへ移動
+ 3. `$php artisan -V` /*バージョンを確認
 
 ### mysql
-1. '$brew install mysql'
-2. '$mysql -V'　/*バージョンを確認
-3. '$mysql.server start'　/*mysqlを起動をさせる
-4. '$mysql -uroot'　/*rootユーザーでログイン
-5. '$mysql> create database abc;'　/*データベースを作成abcはデータベースのファイル名
-6. '$mysql> create user mac@localhost identified by 'aaa';' /*ユーザー作成。macがユーザー名でaaaがパスワード
+1. `$brew install mysql`
+2. `$mysql -V`　/*バージョンを確認
+3. `$mysql.server start`　/*mysqlを起動をさせる
+4. `$mysql -uroot`　/*rootユーザーでログイン
+5. `$mysql> create database abc;`　/*データベースを作成abcはデータベースのファイル名
+6. `$mysql> create user mac@localhost identified by 'aaa';` /*ユーザー作成。macがユーザー名でaaaがパスワード
 
 ### node
-1. '$brew install nodebrew'
-2. '$nodebrew install-binary latest'　/*最新版のインストール
-3. '$nodebrew list'　/*インストール済みのリストを確認
-4. '$nodebrew use v16.0.0' */使用するバージョンを指定
-5. '$echo 'export PATH=$PATH:$HOME/.nodebrew/current/bin' >> ~/.bash_profile' /*パスを通す
+1. `$brew install nodebrew`
+2. `$nodebrew install-binary latest`　/*最新版のインストール
+3. `$nodebrew list`　/*インストール済みのリストを確認
+4. `$nodebrew use v16.0.0` */使用するバージョンを指定
+5. `$echo 'export PATH=$PATH:$HOME/.nodebrew/current/bin' >> ~/.bash_profile` /*パスを通す
 
 ### Sortable
-1. '$composer require rutorika/sortable'
+1. `$composer require rutorika/sortable`
 
 ## 環境変数の設定
 ### Laravel 
 #### データベースの紐付け
-1. .envファイルの編集
+1. `.env`の編集
  '''
    DB_CONNECTION=mysql
    DB_HOST=localhost　→　127.0.0.1に変更
@@ -120,23 +120,23 @@ The Laravel framework is open-source software licensed under the [MIT license](h
    DB_USERNAME=mac
    DB_PASSWORD=aaa
  '''
-2. '$php artisan config:cache'
-3. '$php artisan cache:clear'
-4. '$php artisan migrate'
+2. `$php artisan config:cache`
+3. `$php artisan cache:clear`
+4. `$php artisan migrate`
 
 ## 注意
 ### Laravel
-- 下記のエラーが起きた場合は、.envのDBの記載が正しいか確認。
-'''
+- 下記のエラーが起きた場合は、`.env`のDBの記載が正しいか確認。
+```
 Illuminate\Database\QueryException  : SQLSTATE[HY000] [2002] No such file or directory (SQL: select * from information_schema.tables where table_schema = macdb and table_name = migrations and table_type = 'BASE TABLE')
-'''
+```
 
 ### mysql 
-- mysqlが動かない時は、$mysql -u user-name -p でログインを試してみる
+- mysqlが動かない時は、`mysql -u user-name -p` でログインを試してみる
 
 ### Sortable
  - インストールの際にエラーが発生した場合、バージョンの不一致の可能性が高いため、以下のコマンドでバージョンを指定してインストールする。
- -> '$composer require rutorika/sortable 7.0.0'　
+ -> `$composer require rutorika/sortable 7.0.0`　
 
 
 ## 参考リンク
@@ -150,6 +150,6 @@ Illuminate\Database\QueryException  : SQLSTATE[HY000] [2002] No such file or dir
 - [mysqlのインストール](https://qiita.com/miya_sho/items/6e6635555fcb0af9fa66)
 
 ### node
-[nodeのインストール](https://qiita.com/non0311/items/664cf74d9ff4bad9cf46)
+- [nodeのインストール](https://qiita.com/non0311/items/664cf74d9ff4bad9cf46)
 
 
