@@ -18,7 +18,7 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        $reviews = Review::all();
+        $reviews = Auth::user()->reviews;
 
         return response()->json($reviews);
     }
@@ -49,7 +49,7 @@ class ReviewController extends Controller
         $place->save();
 
         $review = new Review();
-        $review->place = $place->id;
+        $review->place = request('place');
         $review->starts = request('stars');
         $review->content = request('content');
         $review->image = request('image');

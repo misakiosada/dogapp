@@ -18,7 +18,7 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        $reviews = Review::all();
+        $reviews = Auth::user()->reviews;
 
         return response()->json($reviews);
     }
@@ -49,7 +49,7 @@ class ReviewController extends Controller
         $place->save();
 
         $review = new Review();
-        $review->place = $place->id;
+        $review->place = request('place');
         $review->starts = request('stars');
         $review->content = request('content');
         $review->image = request('image');
@@ -90,16 +90,11 @@ class ReviewController extends Controller
      * @param  \App\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function update(State $state, Category $category, Place $place, Request $request, Review $review)
+    public function update(Place $place, Request $request, Review $review)
     {
 
-        $place->name = request('name');
-        $place->address = request('address');
-        $place->state = $state->id;
-        $place->category = $category->id;
-        $place->save();
-
-        $review->place = request('place');
+        $review = new Review();
+        $review->place_id = $place->id;
         $review->starts = request('stars');
         $review->content = request('content');
         $review->image = request('image');
@@ -109,7 +104,6 @@ class ReviewController extends Controller
         $reviews = Auth::user()->reviews;
 
         return response()->json($reviews);
-
     }
 
     /**
