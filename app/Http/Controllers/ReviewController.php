@@ -20,7 +20,6 @@ class ReviewController extends Controller
     {
         $reviews = Review::all();
 
-
         return response()->json($reviews);
     }
 
@@ -40,7 +39,7 @@ class ReviewController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(State $state, Category $category, Place $place, Request $request)
+    public function store(State $state, Category $category, Request $request)
     {
         $place = new Place();
         $place->name = request('name');
@@ -121,6 +120,7 @@ class ReviewController extends Controller
      */
     public function destroy(Review $review)
     {
+
         $review->delete();
 
         $reviews = Auth::user()->reviews;
