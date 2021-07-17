@@ -124,11 +124,9 @@ The Laravel framework is open-source software licensed under the [MIT license](h
 
 #### 認可機能（Policy）
 - Policyとは、ある特定のモデルに対して行うアクション(作成、更新、削除、閲覧等）に関してアクセス制限を行う仕組み
-`
-$php artisan make:policy UserPolicy　--model=User
-` 
-1. appディレクトリ内にPoliciesディレクトリを作成、
-2. --model=UserでUserモデルに対してPolicyを生成する
+- `$php artisan make:policy UserPolicy　--model=User` 
+   1. appディレクトリ内にPoliciesディレクトリを作成、
+   2. --model=UserでUserモデルに対してPolicyを生成する
 
 ## 注意
 ### Laravel
