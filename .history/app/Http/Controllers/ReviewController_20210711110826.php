@@ -39,17 +39,17 @@ class ReviewController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(State $state, Category $category, Request $request)
+    public function store(State $state, Category $category, Place $place, Request $request)
     {
         $place = new Place();
         $place->name = request('name');
         $place->address = request('address');
-        $place->state_id = $state->id;
-        $place->category_id = $category->id;
+        $place->state = $state->id;
+        $place->category = $category->id;
         $place->save();
 
         $review = new Review();
-        $review->place_id = $place->id;
+        $review->place = request('place');
         $review->starts = request('stars');
         $review->content = request('content');
         $review->image = request('image');
@@ -95,11 +95,11 @@ class ReviewController extends Controller
 
         $place->name = request('name');
         $place->address = request('address');
-        $place->state_id = $state->id;
-        $place->category_id = $category->id;
+        $place->state = $state->id;
+        $place->category = $category->id;
         $place->save();
 
-        $review->place_id = $place->id;
+        $review->place = request('place');
         $review->starts = request('stars');
         $review->content = request('content');
         $review->image = request('image');
@@ -120,7 +120,6 @@ class ReviewController extends Controller
      */
     public function destroy(Review $review)
     {
-
         $review->delete();
 
         $reviews = Auth::user()->reviews;

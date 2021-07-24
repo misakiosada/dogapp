@@ -16,8 +16,4 @@ class Review extends Model
         return $this->belongsTo('App\Place');
     }
 
-    public function categories()
-    {
-        return $this->belongsTo('App\Category');
-    }
 }

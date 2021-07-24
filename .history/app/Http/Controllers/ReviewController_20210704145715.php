@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Review;
 use App\Place;
-use APP\Category;
-use APP\State;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,7 +16,7 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        $reviews = Review::all();
+        $reviews = Auth::user()->reviews;
 
         return response()->json($reviews);
     }
@@ -39,15 +37,8 @@ class ReviewController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(State $state, Category $category, Request $request)
+    public function store(Place $place, Request $request)
     {
-        $place = new Place();
-        $place->name = request('name');
-        $place->address = request('address');
-        $place->state_id = $state->id;
-        $place->category_id = $category->id;
-        $place->save();
-
         $review = new Review();
         $review->place_id = $place->id;
         $review->starts = request('stars');
@@ -57,8 +48,6 @@ class ReviewController extends Controller
         $review->save();
 
         $reviews = Auth::user()->reviews;
-
-        return response()->json($reviews);
     }
 
     /**
@@ -90,15 +79,10 @@ class ReviewController extends Controller
      * @param  \App\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function update(State $state, Category $category, Place $place, Request $request, Review $review)
+    public function update(Request $request, Review $review)
     {
 
-        $place->name = request('name');
-        $place->address = request('address');
-        $place->state_id = $state->id;
-        $place->category_id = $category->id;
-        $place->save();
-
+        $review = new Review();
         $review->place_id = $place->id;
         $review->starts = request('stars');
         $review->content = request('content');
@@ -107,8 +91,6 @@ class ReviewController extends Controller
         $review->save();
 
         $reviews = Auth::user()->reviews;
-
-        return response()->json($reviews);
 
     }
 
@@ -120,7 +102,6 @@ class ReviewController extends Controller
      */
     public function destroy(Review $review)
     {
-
         $review->delete();
 
         $reviews = Auth::user()->reviews;
