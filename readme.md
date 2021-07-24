@@ -121,6 +121,12 @@ The Laravel framework is open-source software licensed under the [MIT license](h
 3. `$php artisan cache:clear`
 4. `$php artisan migrate`
 
+#### 認可機能（Policy）
+- Policyとは、ある特定のモデルに対して行うアクション(作成、更新、削除、閲覧等）に関してアクセス制限を行う仕組み
+- `$php artisan make:policy UserPolicy　--model=User` 
+   1. appディレクトリ内にPoliciesディレクトリを作成、
+   2. --model=UserでUserモデルに対してPolicyを生成する
+
 ## 注意
 ### Laravel
 - データベース設定の際に、下記のエラーが起きた場合は、`.env`のDBの記載が正しいか確認。
@@ -142,6 +148,7 @@ Illuminate\Database\QueryException  : SQLSTATE[HY000] [2002] No such file or dir
 - [Homebrewのインストール](https://brew.sh/index_ja )
 - [Pathの通し方](https://qiita.com/miya_sho/items/4b79c9a74fecb42768f6)
 - [Laravelのプロジェクトの作成](https://qiita.com/miya_sho/items/6e6635555fcb0af9fa66)
+- [認可機能（Policy）の使い方](https://qiita.com/kkkanao7/items/60f9b08ca96549ac2fc0)
 
 ### mysql 
 - [mysqlのインストール](https://qiita.com/miya_sho/items/6e6635555fcb0af9fa66)
