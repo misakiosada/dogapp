@@ -1,6 +1,6 @@
 <template>
     <div class="container-fruid h-100 pt-5">
-        <i class="fa fa-plus pl-3" data-toggle="modal" data-target="#goalModal"></i><span class="align-middle"> Create A New</span>
+        <i class="fa fa-plus pl-3" data-toggle="modal" data-target="#goalModal"></i><span class="align-middle"> Create A New Goal</span>
 
         <i class="fa fa-plus align-middle pl-4 pr-1" data-toggle="modal" data-target="#tagModal"></i><span class="align-middle">Manage Tag</span>
 
@@ -158,6 +158,7 @@ export default {
                 }
             }, (error) => {
                 console.log(error)
+
             })
         },
         addNewGoal: function () {
@@ -176,6 +177,7 @@ export default {
         editGoalTitle: function () {
             axios.defaults.headers['X-CSRF-TOKEN'] = $('meta[name=csrf-token]').attr('content');
             axios.defaults.headers['content-type'] = 'application/json';
+            console.log(this.contetn)
             axios.post(`/goals/${this.id}`, {title: this.title, _method: 'patch'}).then((response) => {
                 this.goals.length = 0;
                 for (let i = 0; i < response.data.length; i++) {

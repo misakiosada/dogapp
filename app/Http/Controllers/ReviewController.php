@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Review;
 use App\Place;
-use APP\Category;
-use APP\State;
+use App\State;
+use App\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,7 +20,8 @@ class ReviewController extends Controller
     {
         $reviews = Auth::user()->reviews;
 
-        return response()->json($reviews);
+        return State::all();
+        return response()->json($reviews, $states);
     }
 
     /**
@@ -31,6 +32,7 @@ class ReviewController extends Controller
      */
     public function store(State $state, Category $category, Request $request)
     {
+
         $place = new Place();
         $place->name = request('name');
         $place->address = request('address');
@@ -40,7 +42,7 @@ class ReviewController extends Controller
 
         $review = new Review();
         $review->place_id = $place->id;
-        $review->starts = request('stars');
+        $review->stars = request('stars');
         $review->content = request('content');
         $review->image = request('image');
         $review->user_id = Auth::id();
@@ -68,7 +70,7 @@ class ReviewController extends Controller
         $place->save();
 
         $review->place_id = $place->id;
-        $review->starts = request('stars');
+        $review->stars = request('stars');
         $review->content = request('content');
         $review->image = request('image');
         $review->user_id = Auth::id();

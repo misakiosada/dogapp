@@ -16,7 +16,7 @@ Route::get('/', 'HomeController@index');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource("reviews", "ReviewController")->middleware('auth');
+Route::resource('reviews', 'ReviewController')->middleware('auth');
 
 Route::resource("goals.todos", "TodoController")->middleware('auth');
 
