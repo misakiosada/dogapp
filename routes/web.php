@@ -18,6 +18,12 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('reviews', 'ReviewController')->middleware('auth');
 
+Route::get('/states', 'StateController@index')->middleware('auth');
+
+Route::get('/categories', 'CategoryController@index')->middleware('auth');
+
+
+
 Route::resource("goals.todos", "TodoController")->middleware('auth');
 
 Route::post('/goals/{goal}/todos/{todo}/sort', 'TodoController@sort')->middleware('auth');

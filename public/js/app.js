@@ -2041,6 +2041,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2050,19 +2054,42 @@ __webpack_require__.r(__webpack_exports__);
       placeAddress: "",
       content: "",
       id: "",
-      reviews: [],
+      categoryId: "",
+      stateId: "",
+      star: "",
+      reviews: [{
+        id: 1,
+        place: {
+          id: 1,
+          name: "Albret Park",
+          address: "",
+          category: {
+            id: 1,
+            name: "Park"
+          },
+          state: {
+            id: 1,
+            name: "VIC"
+          }
+        },
+        content: "",
+        star: "",
+        image: ""
+      }],
       states: [],
-      categories: "",
-      places: []
+      categories: []
     };
   },
   mounted: function mounted() {
-    this.getAllReviews();
+    // this.getAllReviews();
+    this.getAllStates();
+    this.getAllCategories();
   },
   methods: {
     getAllReviews: function getAllReviews() {
       var _this = this;
 
+      console.log(this.reviews);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/reviews").then(function (response) {
         for (var i = 0; i < response.data.length; i++) {
           _this.reviews.push(response.data[i]);
@@ -2076,14 +2103,17 @@ __webpack_require__.r(__webpack_exports__);
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers['X-CSRF-TOKEN'] = jquery__WEBPACK_IMPORTED_MODULE_1___default()('meta[name=csrf-token]').attr('content');
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers['content-type'] = 'application/json';
+      console.log(this.reviews);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/reviews", {
         placeName: this.placeName,
         placeAddress: this.placeAddress,
-        state: this.states,
-        category: this.categories,
-        content: this.content
+        content: this.content,
+        categoryId: this.categoryId,
+        stateId: this.stateId,
+        star: this.star
       }).then(function (response) {
         _this2.reviews.length = 0;
+        console.log(response);
 
         for (var i = 0; i < response.data.length; i++) {
           _this2.reviews.push(response.data[i]);
@@ -2091,11 +2121,12 @@ __webpack_require__.r(__webpack_exports__);
       }, function (error) {
         console.log(error);
       });
+      this.content = "";
       this.placeName = "";
-      this.Address = "";
-      this.states = "";
-      this.category = "";
-      this.content = ""; //入力されたデータをデータベースに渡した後からにする
+      this.placeAddress = "";
+      this.stateId = "";
+      this.categoryId = "";
+      this.star = ""; //入力されたデータをデータベースに渡した後からにする
     },
     editReviewTitle: function editReviewTitle() {
       var _this3 = this;
@@ -2130,6 +2161,33 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
       this.id = "";
+    },
+    getAllStates: function getAllStates() {
+      var _this5 = this;
+
+      console.log(this.states);
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/states').then(function (response) {
+        for (var i = 0; i < response.data.length; i++) {
+          _this5.states.push(response.data[i]);
+        }
+      }, function (error) {
+        console.log(error);
+      });
+    },
+    getAllCategories: function getAllCategories() {
+      var _this6 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/categories").then(function (response) {
+        console.log(_this6.categories);
+
+        for (var i = 0; i < response.data.length; i++) {
+          _this6.categories.push(response.data[i]);
+        }
+
+        console.log(_this6.categories);
+      }, function (error) {
+        console.log(error);
+      });
     }
   }
 });
@@ -37927,8 +37985,8 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.state,
-                        expression: "state"
+                        value: _vm.stateId,
+                        expression: "stateId"
                       }
                     ],
                     on: {
@@ -37941,14 +37999,14 @@ var render = function() {
                             var val = "_value" in o ? o._value : o.value
                             return val
                           })
-                        _vm.state = $event.target.multiple
+                        _vm.stateId = $event.target.multiple
                           ? $$selectedVal
                           : $$selectedVal[0]
                       }
                     }
                   },
                   _vm._l(_vm.states, function(state) {
-                    return _c("option", [
+                    return _c("option", { key: state.name }, [
                       _vm._v(
                         "\n                        " +
                           _vm._s(state.name) +
@@ -37959,6 +38017,8 @@ var render = function() {
                   0
                 ),
                 _vm._v(" "),
+                _c("br"),
+                _vm._v(" "),
                 _c("span", [_vm._v("Category")]),
                 _vm._v(" "),
                 _c(
@@ -37968,8 +38028,8 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.category,
-                        expression: "category"
+                        value: _vm.categoryId,
+                        expression: "categoryId"
                       }
                     ],
                     on: {
@@ -37982,14 +38042,14 @@ var render = function() {
                             var val = "_value" in o ? o._value : o.value
                             return val
                           })
-                        _vm.category = $event.target.multiple
+                        _vm.categoryId = $event.target.multiple
                           ? $$selectedVal
                           : $$selectedVal[0]
                       }
                     }
                   },
-                  _vm._l(_vm.categories, function(category, key, index) {
-                    return _c("option", { key: index }, [
+                  _vm._l(_vm.categories, function(category) {
+                    return _c("option", { key: category.name }, [
                       _vm._v(
                         "\n                        " +
                           _vm._s(category.name) +
@@ -38000,7 +38060,7 @@ var render = function() {
                   0
                 ),
                 _vm._v(" "),
-                _c("span", [_vm._v("Category")]),
+                _c("br"),
                 _vm._v(" "),
                 _c("input", {
                   directives: [
@@ -38144,8 +38204,8 @@ var render = function() {
     _c(
       "div",
       { staticClass: "card-group h-100" },
-      _vm._l(_vm.reviews, function(review, key, index) {
-        return _c("div", { key: index }, [
+      _vm._l(_vm.reviews, function(review) {
+        return _c("div", { key: review.id }, [
           _c(
             "div",
             { staticClass: "card h-100 m-3", staticStyle: { width: "24rem" } },
@@ -38153,6 +38213,10 @@ var render = function() {
               _c("div", { staticClass: "d-flex justify-content-between" }, [
                 _c("h3", { staticClass: "ml-5 mt-2" }, [
                   _vm._v(_vm._s(review.place.name))
+                ]),
+                _vm._v(" "),
+                _c("h3", { staticClass: "ml-5 mt-2" }, [
+                  _vm._v(_vm._s(review.place.state.name))
                 ]),
                 _vm._v(" "),
                 _c("div", [
@@ -38180,8 +38244,8 @@ var render = function() {
                             },
                             on: {
                               click: function($event) {
-                                _vm.name = review.place.name
-                                _vm.id = review.id
+                                _vm.name = _vm.place.name
+                                _vm.id = _vm.place.id
                               }
                             }
                           },
@@ -38198,7 +38262,7 @@ var render = function() {
                             },
                             on: {
                               click: function($event) {
-                                _vm.id = review.id
+                                _vm.id = _vm.place.id
                               }
                             }
                           },

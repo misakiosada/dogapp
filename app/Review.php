@@ -11,7 +11,7 @@ class Review extends Model
         return $this->belongsTo('App\User');
     }
 
-    public function places()
+    public function place()
     {
         return $this->belongsTo('App\Place');
     }

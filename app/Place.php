@@ -11,13 +11,15 @@ class Place extends Model
         return $this->hasMany('App\Review');
     }
 
-    public function states()
+    public function category()
     {
-        return $this->belongsTo('App\State');
+        return $this->belongsTo('App\Category', 'id');
+
     }
 
-    public function categories()
+    public function state()
     {
-        return $this->belongsTo('App\Category');
+        return $this->belongsTo('App\State', 'id');
     }
+
 }

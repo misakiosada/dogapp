@@ -18,10 +18,10 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        $reviews = Auth::user()->reviews;
 
-        return State::all();
-        return response()->json($reviews, $states);
+        $reviews = Review::with(['place', 'place.state', 'place.category'])->get();
+
+        return response()->json($reviews);
     }
 
     /**
@@ -34,15 +34,15 @@ class ReviewController extends Controller
     {
 
         $place = new Place();
-        $place->name = request('name');
-        $place->address = request('address');
-        $place->state_id = $state->id;
-        $place->category_id = $category->id;
+        $place->name = request('placeName');
+        $place->address = request('placeAddress');
+        $place->state_id = $request->input('stateId');
+        $place->category_id = $request->input('categoryId');
         $place->save();
 
         $review = new Review();
         $review->place_id = $place->id;
-        $review->stars = request('stars');
+        $review->stars = request('star');
         $review->content = request('content');
         $review->image = request('image');
         $review->user_id = Auth::id();

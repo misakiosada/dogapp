@@ -17,18 +17,19 @@
                         <span>City/Suburb</span>
                         <input v-model="placeAddress" class="form-control">
                         <span>State</span>
-                        <select v-model="state">
-                            <option v-for="state in states">
-                            {{ state.name }}
+                        <select v-model="stateId">
+                            <option v-for="state in states" v-bind:key="state.name">
+                            {{  state.name }}
                             </option>
                         </select>
+                        <br>
                         <span>Category</span>
-                        <select v-model="category">
-                            <option v-for="(category, key, index) in categories" :key=index>
+                        <select v-model="categoryId">
+                            <option v-for="category in categories" v-bind:key="category.name">
                             {{ category.name }}
                             </option>
                         </select>
-                        <span>Category</span>
+                        <br>
                         <input v-model="content" class="form-control" placeholder="Share details of your experience at the place">
                     </div>
                     <div class="modal-footer">
@@ -74,16 +75,17 @@
         </div>
 
         <div class="card-group h-100">
-            <div v-for="(review, key, index) in reviews" :key=index>
+            <div v-for="review in reviews" v-bind:key="review.id">
                 <div class="card h-100 m-3" style="width: 24rem;">
                     <div class="d-flex justify-content-between">
-                        <h3 class="ml-5 mt-2">{{ review.place.name }}</h3>
+                        <h3 class="ml-5 mt-2">{{ review.place.name}}</h3>
+                        <h3 class="ml-5 mt-2">{{ review.place.state.name}}</h3>
                         <div>
                             <div class="btn-group dropdown">
                             <i class="fa fa-ellipsis-v p-2 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                        <div class="text-center" data-toggle="modal" data-target="#editReviewModal" v-on:click="name = review.place.name; id = review.id">Edit</div>
-                                        <div class="text-danger text-center" data-toggle="modal" data-target="#deleteReviewModal" v-on:click="id = review.id">Delete</div>
+                                        <div class="text-center" data-toggle="modal" data-target="#editReviewModal" v-on:click="name = place.name; id = place.id">Edit</div>
+                                        <div class="text-danger text-center" data-toggle="modal" data-target="#deleteReviewModal" v-on:click="id = place.id">Delete</div>
                                     </div>
                             </div>
                         </div>
@@ -91,6 +93,8 @@
                 </div>
             </div>
         </div>
+
+
     </div>
 </template>
 
@@ -104,27 +108,44 @@ export default {
             placeAddress:"",
             content: "",
             id:"",
-            reviews:[],
-            states:[
+            categoryId:"",
+            stateId:"",
+            star:"",
+            reviews:[{
+                id: 1,
+                place:{
+                    id: 1,
+                    name:"Albret Park",
+                    address:"",
+                    category:{
+                        id:1, name:"Park"},
+                    state:{id:1, name:"VIC"}
+                    },
+                content:"",
+                star:"",
+                image:""
+                }
 
             ],
-            categories:"",
-            places:[]
+            states:[],
+            categories:[]
 
         }
     },
 
     mounted: function () {
-       this.getAllReviews();
+        // this.getAllReviews();
+        this.getAllStates();
+        this.getAllCategories();
     },
 
     methods: {
         getAllReviews: function () {
+            console.log(this.reviews)
             axios.get("/reviews").then((response) => {
                 for(let i = 0; i < response.data.length; i++) {
                     this.reviews.push(response.data[i])
                 }
-
             }, (error) => {
                 console.log(error)
             })
@@ -132,26 +153,31 @@ export default {
         addNewReview: function () {
             axios.defaults.headers['X-CSRF-TOKEN'] = $('meta[name=csrf-token]').attr('content');
             axios.defaults.headers['content-type'] = 'application/json';
+            console.log(this.reviews)
             axios.post("/reviews", {
                 placeName: this.placeName,
                 placeAddress: this.placeAddress,
-                state: this.states,
-                category: this.categories,
-                content: this.content
+                content: this.content,
+                categoryId: this.categoryId,
+                stateId: this.stateId,
+                star: this.star
 
                 }).then((response) => {
                 this.reviews.length = 0;
+                console.log(response)
                 for (let i = 0; i < response.data.length; i++) {
                     this.reviews.push(response.data[i])
                 }
             }, (error) => {
                 console.log(error)
             })
+
+            this.content = ""
             this.placeName = ""
-            this.Address = ""
-            this.states = ""
-            this.category = ""
-            this.content = ""  //入力されたデータをデータベースに渡した後からにする
+            this.placeAddress = ""
+            this.stateId = ""
+            this.categoryId = ""
+            this.star = "" //入力されたデータをデータベースに渡した後からにする
         },
 
         editReviewTitle: function () {
@@ -167,6 +193,7 @@ export default {
             })
             this.content = ""
         },
+
         deleteReview: function () {
             axios.defaults.headers['X-CSRF-TOKEN'] = $('meta[name=csrf-token]').attr('content');
             axios.defaults.headers['content-type'] = 'application/json';
@@ -180,6 +207,29 @@ export default {
             this.id = ""
         },
 
+        getAllStates: function () {
+            console.log(this.states)
+            axios.get('/states'). then((response) => {
+                for (let i = 0; i <response.data.length; i++) {
+                    this.states.push(response.data[i])
+                }
+            }, (error) => {
+                console.log(error)
+            })
+
+        },
+
+        getAllCategories: function () {
+            axios.get("/categories").then((response) => {
+                console.log(this.categories)
+                for(let i = 0; i < response.data.length; i++) {
+                    this.categories.push(response.data[i])
+                }
+                console.log(this.categories)
+            }, (error) => {
+                console.log(error)
+            })
+        },
     }
 }
 </script>
