@@ -13,13 +13,13 @@ class Place extends Model
 
     public function category()
     {
-        return $this->belongsTo('App\Category', 'id');
+        return $this->belongsTo('App\Category');
 
     }
 
     public function state()
     {
-        return $this->belongsTo('App\State', 'id');
+        return $this->belongsTo('App\State');
     }
 
 }

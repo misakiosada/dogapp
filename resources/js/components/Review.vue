@@ -134,21 +134,31 @@ export default {
     },
 
     mounted: function () {
-        // this.getAllReviews();
+        this.getAllReviews();
         this.getAllStates();
         this.getAllCategories();
     },
 
     methods: {
         getAllReviews: function () {
+            console.log("InitialReviews")
             console.log(this.reviews)
             axios.get("/reviews").then((response) => {
                 for(let i = 0; i < response.data.length; i++) {
+                    console.log("BeforePushReviews")
+                    console.log(this.reviews)
                     this.reviews.push(response.data[i])
+                    console.log("AfterPushReviews")
+                    console.log(this.reviews)
                 }
+                console.log("AfterForReviews")
+                console.log(this.reviews)
             }, (error) => {
                 console.log(error)
             })
+            console.log("AfterGetReviews")
+            console.log(this.reviews)
+
         },
         addNewReview: function () {
             axios.defaults.headers['X-CSRF-TOKEN'] = $('meta[name=csrf-token]').attr('content');
@@ -208,7 +218,6 @@ export default {
         },
 
         getAllStates: function () {
-            console.log(this.states)
             axios.get('/states'). then((response) => {
                 for (let i = 0; i <response.data.length; i++) {
                     this.states.push(response.data[i])

@@ -2081,7 +2081,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    // this.getAllReviews();
+    this.getAllReviews();
     this.getAllStates();
     this.getAllCategories();
   },
@@ -2089,14 +2089,26 @@ __webpack_require__.r(__webpack_exports__);
     getAllReviews: function getAllReviews() {
       var _this = this;
 
+      console.log("InitialReviews");
       console.log(this.reviews);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/reviews").then(function (response) {
         for (var i = 0; i < response.data.length; i++) {
+          console.log("BeforePushReviews");
+          console.log(_this.reviews);
+
           _this.reviews.push(response.data[i]);
+
+          console.log("AfterPushReviews");
+          console.log(_this.reviews);
         }
+
+        console.log("AfterForReviews");
+        console.log(_this.reviews);
       }, function (error) {
         console.log(error);
       });
+      console.log("AfterGetReviews");
+      console.log(this.reviews);
     },
     addNewReview: function addNewReview() {
       var _this2 = this;
@@ -2165,7 +2177,6 @@ __webpack_require__.r(__webpack_exports__);
     getAllStates: function getAllStates() {
       var _this5 = this;
 
-      console.log(this.states);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/states').then(function (response) {
         for (var i = 0; i < response.data.length; i++) {
           _this5.states.push(response.data[i]);

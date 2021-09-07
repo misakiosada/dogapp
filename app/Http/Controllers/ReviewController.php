@@ -19,7 +19,12 @@ class ReviewController extends Controller
     public function index()
     {
 
+        $places = Place::all();
+        logger($places);
+
         $reviews = Review::with(['place', 'place.state', 'place.category'])->get();
+
+        logger($reviews);
 
         return response()->json($reviews);
     }
