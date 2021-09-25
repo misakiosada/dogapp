@@ -2045,6 +2045,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2058,17 +2069,17 @@ __webpack_require__.r(__webpack_exports__);
       stateId: "",
       star: "",
       reviews: [{
-        id: 1,
+        id: 0,
         place: {
-          id: 1,
+          id: 0,
           name: "Albret Park",
           address: "",
           category: {
-            id: 1,
+            id: 3,
             name: "Park"
           },
           state: {
-            id: 1,
+            id: 2,
             name: "VIC"
           }
         },
@@ -2089,33 +2100,21 @@ __webpack_require__.r(__webpack_exports__);
     getAllReviews: function getAllReviews() {
       var _this = this;
 
-      console.log("InitialReviews");
-      console.log(this.reviews);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/reviews").then(function (response) {
         for (var i = 0; i < response.data.length; i++) {
-          console.log("BeforePushReviews");
-          console.log(_this.reviews);
+          // データベースからreviewsテーブルのデータを取得
+          _this.reviews.push(response.data[i]); // (responce.data)はfor文でgetしたreviewsテーブルの情報を指しており、reviews[]配列にpushされる。
 
-          _this.reviews.push(response.data[i]);
-
-          console.log("AfterPushReviews");
-          console.log(_this.reviews);
         }
-
-        console.log("AfterForReviews");
-        console.log(_this.reviews);
       }, function (error) {
         console.log(error);
       });
-      console.log("AfterGetReviews");
-      console.log(this.reviews);
     },
     addNewReview: function addNewReview() {
       var _this2 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers['X-CSRF-TOKEN'] = jquery__WEBPACK_IMPORTED_MODULE_1___default()('meta[name=csrf-token]').attr('content');
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers['content-type'] = 'application/json';
-      console.log(this.reviews);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/reviews", {
         placeName: this.placeName,
         placeAddress: this.placeAddress,
@@ -2140,7 +2139,7 @@ __webpack_require__.r(__webpack_exports__);
       this.categoryId = "";
       this.star = ""; //入力されたデータをデータベースに渡した後からにする
     },
-    editReviewTitle: function editReviewTitle() {
+    editReview: function editReview() {
       var _this3 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers['X-CSRF-TOKEN'] = jquery__WEBPACK_IMPORTED_MODULE_1___default()('meta[name=csrf-token]').attr('content');
@@ -2164,7 +2163,6 @@ __webpack_require__.r(__webpack_exports__);
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers['X-CSRF-TOKEN'] = jquery__WEBPACK_IMPORTED_MODULE_1___default()('meta[name=csrf-token]').attr('content');
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers['content-type'] = 'application/json';
-      console.log(this.id);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/reviews/".concat(this.id), {
         _method: 'delete'
       }).then(function (response) {
@@ -38017,13 +38015,17 @@ var render = function() {
                     }
                   },
                   _vm._l(_vm.states, function(state) {
-                    return _c("option", { key: state.name }, [
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(state.name) +
-                          "\n                        "
-                      )
-                    ])
+                    return _c(
+                      "option",
+                      { key: state.id, domProps: { value: state.id } },
+                      [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(state.name) +
+                            "\n                        "
+                        )
+                      ]
+                    )
                   }),
                   0
                 ),
@@ -38060,15 +38062,74 @@ var render = function() {
                     }
                   },
                   _vm._l(_vm.categories, function(category) {
-                    return _c("option", { key: category.name }, [
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(category.name) +
-                          "\n                        "
-                      )
-                    ])
+                    return _c(
+                      "option",
+                      { key: category.id, domProps: { value: category.id } },
+                      [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(category.name) +
+                            "\n                        "
+                        )
+                      ]
+                    )
                   }),
                   0
+                ),
+                _vm._v(" "),
+                _c("br"),
+                _vm._v(" "),
+                _c("label", { attrs: { for: "rating" } }, [_vm._v("Rate")]),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.star,
+                        expression: "star"
+                      }
+                    ],
+                    attrs: { id: "rating" },
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.star = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      }
+                    }
+                  },
+                  [
+                    _c("option", { attrs: { value: "0" } }, [
+                      _vm._v("No star")
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "1" } }, [_vm._v("⭐️")]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "2" } }, [_vm._v("⭐️⭐️")]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "3" } }, [
+                      _vm._v("⭐️⭐️⭐️")
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "4" } }, [
+                      _vm._v("⭐️⭐️⭐️⭐️")
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "5" } }, [
+                      _vm._v("⭐️⭐️⭐️⭐️⭐️")
+                    ])
+                  ]
                 ),
                 _vm._v(" "),
                 _c("br"),
@@ -38136,6 +38197,8 @@ var render = function() {
               _vm._m(1),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
+                _c("span", [_vm._v("Change the comment")]),
+                _vm._v(" "),
                 _c("input", {
                   directives: [
                     {
@@ -38146,6 +38209,9 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
+                  attrs: {
+                    placeholder: "Share details of your experience at the place"
+                  },
                   domProps: { value: _vm.content },
                   on: {
                     input: function($event) {
@@ -38164,7 +38230,7 @@ var render = function() {
                   {
                     staticClass: "btn btn-secondary",
                     attrs: { type: "button", "data-dismiss": "modal" },
-                    on: { click: _vm.editReviewTitle }
+                    on: { click: _vm.editReview }
                   },
                   [_vm._v("Edit")]
                 )
@@ -38226,10 +38292,6 @@ var render = function() {
                   _vm._v(_vm._s(review.place.name))
                 ]),
                 _vm._v(" "),
-                _c("h3", { staticClass: "ml-5 mt-2" }, [
-                  _vm._v(_vm._s(review.place.state.name))
-                ]),
-                _vm._v(" "),
                 _c("div", [
                   _c("div", { staticClass: "btn-group dropdown" }, [
                     _c("i", {
@@ -38255,8 +38317,8 @@ var render = function() {
                             },
                             on: {
                               click: function($event) {
-                                _vm.name = _vm.place.name
-                                _vm.id = _vm.place.id
+                                _vm.content = review.content
+                                _vm.id = review.id
                               }
                             }
                           },
@@ -38273,7 +38335,7 @@ var render = function() {
                             },
                             on: {
                               click: function($event) {
-                                _vm.id = _vm.place.id
+                                _vm.id = review.id
                               }
                             }
                           },

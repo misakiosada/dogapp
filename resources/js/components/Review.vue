@@ -18,19 +18,30 @@
                         <input v-model="placeAddress" class="form-control">
                         <span>State</span>
                         <select v-model="stateId">
-                            <option v-for="state in states" v-bind:key="state.name">
+                            <option v-for="state in states" :key="state.id" :value="state.id">
                             {{  state.name }}
                             </option>
                         </select>
                         <br>
                         <span>Category</span>
                         <select v-model="categoryId">
-                            <option v-for="category in categories" v-bind:key="category.name">
+                            <option v-for="category in categories" :key="category.id" :value="category.id">
                             {{ category.name }}
                             </option>
                         </select>
                         <br>
+                        <label for="rating">Rate</label>
+                        <select id="rating" v-model="star">
+                            <option value="0">No star</option>
+                            <option value="1">⭐️</option>
+                            <option value="2">⭐️⭐️</option>
+                    　　     <option value="3">⭐️⭐️⭐️</option>
+                            <option value="4">⭐️⭐️⭐️⭐️</option>
+       　　　　　　　　　　　   <option value="5">⭐️⭐️⭐️⭐️⭐️</option>
+       　　　　　　　　　　 </select>
+                        <br>
                         <input v-model="content" class="form-control" placeholder="Share details of your experience at the place">
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal" v-on:click="addNewReview">Post</button>
@@ -49,10 +60,11 @@
                             </button>
                     </div>
                     <div class="modal-body">
-                        <input v-model="content" class="form-control">
+                        <span>Change the comment</span>
+                        <input v-model="content" class="form-control" placeholder="Share details of your experience at the place">
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal" v-on:click="editReviewTitle">Edit</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" v-on:click="editReview">Edit</button>
                     </div>
                 </div>
             </div>
@@ -79,13 +91,12 @@
                 <div class="card h-100 m-3" style="width: 24rem;">
                     <div class="d-flex justify-content-between">
                         <h3 class="ml-5 mt-2">{{ review.place.name}}</h3>
-                        <h3 class="ml-5 mt-2">{{ review.place.state.name}}</h3>
                         <div>
                             <div class="btn-group dropdown">
                             <i class="fa fa-ellipsis-v p-2 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                        <div class="text-center" data-toggle="modal" data-target="#editReviewModal" v-on:click="name = place.name; id = place.id">Edit</div>
-                                        <div class="text-danger text-center" data-toggle="modal" data-target="#deleteReviewModal" v-on:click="id = place.id">Delete</div>
+                                        <div class="text-center" data-toggle="modal" data-target="#editReviewModal" v-on:click="content = review.content ; id = review.id">Edit</div>
+                                        <div class="text-danger text-center" data-toggle="modal" data-target="#deleteReviewModal" v-on:click="id = review.id">Delete</div>
                                     </div>
                             </div>
                         </div>
@@ -112,14 +123,14 @@ export default {
             stateId:"",
             star:"",
             reviews:[{
-                id: 1,
+                id: 0,
                 place:{
-                    id: 1,
+                    id: 0,
                     name:"Albret Park",
                     address:"",
                     category:{
-                        id:1, name:"Park"},
-                    state:{id:1, name:"VIC"}
+                        id:3, name:"Park"},
+                    state:{id:2, name:"VIC"}
                     },
                 content:"",
                 star:"",
@@ -141,29 +152,17 @@ export default {
 
     methods: {
         getAllReviews: function () {
-            console.log("InitialReviews")
-            console.log(this.reviews)
             axios.get("/reviews").then((response) => {
-                for(let i = 0; i < response.data.length; i++) {
-                    console.log("BeforePushReviews")
-                    console.log(this.reviews)
-                    this.reviews.push(response.data[i])
-                    console.log("AfterPushReviews")
-                    console.log(this.reviews)
+                for(let i = 0; i < response.data.length; i++) { // データベースからreviewsテーブルのデータを取得
+                    this.reviews.push(response.data[i])　　　　　// (responce.data)はfor文でgetしたreviewsテーブルの情報を指しており、reviews[]配列にpushされる。
                 }
-                console.log("AfterForReviews")
-                console.log(this.reviews)
             }, (error) => {
                 console.log(error)
             })
-            console.log("AfterGetReviews")
-            console.log(this.reviews)
-
         },
         addNewReview: function () {
             axios.defaults.headers['X-CSRF-TOKEN'] = $('meta[name=csrf-token]').attr('content');
             axios.defaults.headers['content-type'] = 'application/json';
-            console.log(this.reviews)
             axios.post("/reviews", {
                 placeName: this.placeName,
                 placeAddress: this.placeAddress,
@@ -190,10 +189,12 @@ export default {
             this.star = "" //入力されたデータをデータベースに渡した後からにする
         },
 
-        editReviewTitle: function () {
+        editReview: function () {
             axios.defaults.headers['X-CSRF-TOKEN'] = $('meta[name=csrf-token]').attr('content');
             axios.defaults.headers['content-type'] = 'application/json';
-            axios.post(`/reviews/${this.id}`, {content: this.content, _method: 'patch'}).then((response) => {
+            axios.post(`/reviews/${this.id}`, {
+                content: this.content,
+                _method: 'patch'}).then((response) => {
                 this.reviews.length = 0;
                 for (let i = 0; i < response.data.length; i++) {
                     this.reviews.push(response.data[i])
@@ -207,7 +208,6 @@ export default {
         deleteReview: function () {
             axios.defaults.headers['X-CSRF-TOKEN'] = $('meta[name=csrf-token]').attr('content');
             axios.defaults.headers['content-type'] = 'application/json';
-            console.log(this.id)
             axios.post(`/reviews/${this.id}`, {_method: 'delete'}).then((response) => {
                 this.reviews = response.data;
             }, (error) => {
