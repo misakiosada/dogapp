@@ -14,10 +14,10 @@ class CreateTodoTagsTable extends Migration
     public function up()
     {
         Schema::create('tag_todo', function (Blueprint $table) {
-      　      $table->bigIncrements('id');
-        　    $table->integer('todo_id');
-              $table->integer('tag_id');
-              $table->timestamps();
+             $table->bigIncrements('id');
+             $table->integer('todo_id');
+             $table->integer('tag_id');
+             $table->timestamps();
         });
     }
 

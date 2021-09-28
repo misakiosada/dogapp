@@ -35,7 +35,3 @@ Route::post('/goals/{goal}/todos/{todo}/tags/{tag}', 'TodoController@addTag')->m
 Route::delete('/goals/{goal}/todos/{todo}/tags/{tag}', 'TodoController@removeTag')->middleware('auth');
 
 Auth::routes();
-
-if (env('APP_ENV') === 'production') {
-    URL::forceScheme('https');
-}
