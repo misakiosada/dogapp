@@ -19,7 +19,7 @@ class CreateReviewsTable extends Migration
             $table->integer('place_id');
             $table->integer('stars');
             $table->text('content');
-            $table->string('image');
+            $table->string('image')->nullable()->change();
             $table->timestamp('updated_at')->useCurrent()->nullable();
             $table->timestamp('created_at')->useCurrent()->nullable();
             $table->softDeletes();
@@ -34,5 +34,6 @@ class CreateReviewsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('reviews');
+
     }
 }

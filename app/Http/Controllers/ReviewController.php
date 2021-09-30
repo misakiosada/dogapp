@@ -9,6 +9,7 @@ use App\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use phpDocumentor\Reflection\Types\Nullable;
 
 class ReviewController extends Controller
 {
@@ -49,7 +50,7 @@ class ReviewController extends Controller
         $review->place_id = $place->id;
         $review->stars = request('star');
         $review->content = request('content');
-        $review->image = request('image');
+        $review->image = $request->input('image', '');
         $review->user_id = Auth::id();
         $review->save();
 
