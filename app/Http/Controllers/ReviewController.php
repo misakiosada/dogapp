@@ -50,7 +50,7 @@ class ReviewController extends Controller
         $review->place_id = $place->id;
         $review->stars = request('star');
         $review->content = request('content');
-        $review->image = $request->input('image', '');
+        $review->image = request('image');
         $review->user_id = Auth::id();
         $review->save();
 

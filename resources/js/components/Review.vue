@@ -40,6 +40,9 @@
        　　　　　　　　　　　   <option value="5">⭐️⭐️⭐️⭐️⭐️</option>
        　　　　　　　　　　 </select>
                         <br>
+                        <span>Image</span>
+                        <input v-model="image" class="form-control">
+                        <span>Content</span>
                         <input v-model="content" class="form-control" placeholder="Share details of your experience at the place">
 
                     </div>
@@ -122,6 +125,7 @@ export default {
             categoryId:"",
             stateId:"",
             star:"",
+            image:"",
             reviews:[{
                 id: 0,
                 place:{
@@ -169,6 +173,7 @@ export default {
                 content: this.content,
                 categoryId: this.categoryId,
                 stateId: this.stateId,
+                image: this.image,
                 star: this.star
 
                 }).then((response) => {
@@ -186,6 +191,7 @@ export default {
             this.placeAddress = ""
             this.stateId = ""
             this.categoryId = ""
+            this.image = ""
             this.star = "" //入力されたデータをデータベースに渡した後からにする
         },
 

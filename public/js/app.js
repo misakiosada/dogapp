@@ -2056,6 +2056,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2068,6 +2071,7 @@ __webpack_require__.r(__webpack_exports__);
       categoryId: "",
       stateId: "",
       star: "",
+      image: "",
       reviews: [{
         id: 0,
         place: {
@@ -2121,6 +2125,7 @@ __webpack_require__.r(__webpack_exports__);
         content: this.content,
         categoryId: this.categoryId,
         stateId: this.stateId,
+        image: this.image,
         star: this.star
       }).then(function (response) {
         _this2.reviews.length = 0;
@@ -2137,6 +2142,7 @@ __webpack_require__.r(__webpack_exports__);
       this.placeAddress = "";
       this.stateId = "";
       this.categoryId = "";
+      this.image = "";
       this.star = ""; //入力されたデータをデータベースに渡した後からにする
     },
     editReview: function editReview() {
@@ -38133,6 +38139,31 @@ var render = function() {
                 ),
                 _vm._v(" "),
                 _c("br"),
+                _vm._v(" "),
+                _c("span", [_vm._v("Image")]),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.image,
+                      expression: "image"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  domProps: { value: _vm.image },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.image = $event.target.value
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c("span", [_vm._v("Content")]),
                 _vm._v(" "),
                 _c("input", {
                   directives: [
