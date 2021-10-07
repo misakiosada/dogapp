@@ -46,11 +46,19 @@ class ReviewController extends Controller
         $place->category_id = $request->input('categoryId');
         $place->save();
 
+        if ($file = $request->image) {
+            $fileName = time() . $file->getClientOriginalName();
+            $target_path = public_path('uploads/');
+            $file->move($target_path, $fileName);
+        } else {
+            $fileName = "";
+        }
+
         $review = new Review();
         $review->place_id = $place->id;
         $review->stars = request('star');
         $review->content = request('content');
-        $review->image = request('image');
+        $review->image = $fileName;
         $review->user_id = Auth::id();
         $review->save();
 

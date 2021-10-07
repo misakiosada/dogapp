@@ -2059,6 +2059,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2072,6 +2073,7 @@ __webpack_require__.r(__webpack_exports__);
       stateId: "",
       star: "",
       image: "",
+      fileInfo: "",
       reviews: [{
         id: 0,
         place: {
@@ -2117,9 +2119,12 @@ __webpack_require__.r(__webpack_exports__);
     addNewReview: function addNewReview() {
       var _this2 = this;
 
+      var formData = new FormData();
+      formData.append('file', this.fileInfo);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers['X-CSRF-TOKEN'] = jquery__WEBPACK_IMPORTED_MODULE_1___default()('meta[name=csrf-token]').attr('content');
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers['content-type'] = 'application/json';
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/reviews", {
+        formData: formData,
         placeName: this.placeName,
         placeAddress: this.placeAddress,
         content: this.content,
@@ -2144,6 +2149,10 @@ __webpack_require__.r(__webpack_exports__);
       this.categoryId = "";
       this.image = "";
       this.star = ""; //入力されたデータをデータベースに渡した後からにする
+    },
+    fileSelected: function fileSelected(event) {
+      this.fileInfo = event.target.files[0];
+      console.log(event);
     },
     editReview: function editReview() {
       var _this3 = this;
@@ -38143,25 +38152,11 @@ var render = function() {
                 _c("span", [_vm._v("Image")]),
                 _vm._v(" "),
                 _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.image,
-                      expression: "image"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  domProps: { value: _vm.image },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.image = $event.target.value
-                    }
-                  }
+                  attrs: { type: "file" },
+                  on: { change: _vm.fileSelected }
                 }),
+                _vm._v(" "),
+                _c("br"),
                 _vm._v(" "),
                 _c("span", [_vm._v("Content")]),
                 _vm._v(" "),

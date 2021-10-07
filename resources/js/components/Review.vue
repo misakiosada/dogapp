@@ -41,7 +41,8 @@
        　　　　　　　　　　 </select>
                         <br>
                         <span>Image</span>
-                        <input v-model="image" class="form-control">
+                        <input type="file" v-on:change="fileSelected">
+                        <br>
                         <span>Content</span>
                         <input v-model="content" class="form-control" placeholder="Share details of your experience at the place">
 
@@ -126,6 +127,7 @@ export default {
             stateId:"",
             star:"",
             image:"",
+            fileInfo:"",
             reviews:[{
                 id: 0,
                 place:{
@@ -165,9 +167,13 @@ export default {
             })
         },
         addNewReview: function () {
+            const formData = new FormData()
+            formData.append('file',this.fileInfo)
+
             axios.defaults.headers['X-CSRF-TOKEN'] = $('meta[name=csrf-token]').attr('content');
             axios.defaults.headers['content-type'] = 'application/json';
             axios.post("/reviews", {
+                formData,
                 placeName: this.placeName,
                 placeAddress: this.placeAddress,
                 content: this.content,
@@ -193,6 +199,11 @@ export default {
             this.categoryId = ""
             this.image = ""
             this.star = "" //入力されたデータをデータベースに渡した後からにする
+        },
+
+        fileSelected(event){
+            this.fileInfo = event.target.files[0]
+            console.log(event)
         },
 
         editReview: function () {
