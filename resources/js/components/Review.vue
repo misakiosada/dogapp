@@ -41,7 +41,7 @@
        　　　　　　　　　　 </select>
                         <br>
                         <span>Image</span>
-                        <input type="file" v-on:change="fileSelected">
+                        <input type="file" @change="onFileChange">
                         <br>
                         <span>Content</span>
                         <input v-model="content" class="form-control" placeholder="Share details of your experience at the place">
@@ -127,7 +127,7 @@ export default {
             stateId:"",
             star:"",
             image:"",
-            fileInfo:"",
+            fileInfo: "",
             reviews:[{
                 id: 0,
                 place:{
@@ -167,22 +167,19 @@ export default {
             })
         },
         addNewReview: function () {
-            const formData = new FormData()
-            formData.append('file',this.fileInfo)
+            let formData = new FormData();
+                formData.append('image', this.image);
+                formData.append('placeName', this.placename);
+                formData.append('placeAddress', this.placeAddress);
+                formData.append('content', this.content);
+                formData.append('categoryId', this.categoryId);
+                formData.append('stateId', this.stateId);
+                formData.append('star', this.star);
 
             axios.defaults.headers['X-CSRF-TOKEN'] = $('meta[name=csrf-token]').attr('content');
             axios.defaults.headers['content-type'] = 'application/json';
-            axios.post("/reviews", {
-                formData,
-                placeName: this.placeName,
-                placeAddress: this.placeAddress,
-                content: this.content,
-                categoryId: this.categoryId,
-                stateId: this.stateId,
-                image: this.image,
-                star: this.star
-
-                }).then((response) => {
+            axios.post("/reviews", formData)
+            .then((response) => {
                 this.reviews.length = 0;
                 console.log(response)
                 for (let i = 0; i < response.data.length; i++) {
@@ -197,13 +194,14 @@ export default {
             this.placeAddress = ""
             this.stateId = ""
             this.categoryId = ""
-            this.image = ""
             this.star = "" //入力されたデータをデータベースに渡した後からにする
+            this.image = "";
+
         },
 
-        fileSelected(event){
-            this.fileInfo = event.target.files[0]
-            console.log(event)
+        onFileChange(e) {
+            this.image = e.target.files; // ファイルを変数に格納
+
         },
 
         editReview: function () {

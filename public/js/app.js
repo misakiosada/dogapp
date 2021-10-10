@@ -2120,19 +2120,16 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       var formData = new FormData();
-      formData.append('file', this.fileInfo);
+      formData.append('image', this.image);
+      formData.append('placeName', this.placename);
+      formData.append('placeAddress', this.placeAddress);
+      formData.append('content', this.content);
+      formData.append('categoryId', this.categoryId);
+      formData.append('stateId', this.stateId);
+      formData.append('star', this.star);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers['X-CSRF-TOKEN'] = jquery__WEBPACK_IMPORTED_MODULE_1___default()('meta[name=csrf-token]').attr('content');
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers['content-type'] = 'application/json';
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/reviews", {
-        formData: formData,
-        placeName: this.placeName,
-        placeAddress: this.placeAddress,
-        content: this.content,
-        categoryId: this.categoryId,
-        stateId: this.stateId,
-        image: this.image,
-        star: this.star
-      }).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/reviews", formData).then(function (response) {
         _this2.reviews.length = 0;
         console.log(response);
 
@@ -2147,12 +2144,12 @@ __webpack_require__.r(__webpack_exports__);
       this.placeAddress = "";
       this.stateId = "";
       this.categoryId = "";
-      this.image = "";
       this.star = ""; //入力されたデータをデータベースに渡した後からにする
+
+      this.image = "";
     },
-    fileSelected: function fileSelected(event) {
-      this.fileInfo = event.target.files[0];
-      console.log(event);
+    onFileChange: function onFileChange(e) {
+      this.image = e.target.files; // ファイルを変数に格納
     },
     editReview: function editReview() {
       var _this3 = this;
@@ -38153,7 +38150,7 @@ var render = function() {
                 _vm._v(" "),
                 _c("input", {
                   attrs: { type: "file" },
-                  on: { change: _vm.fileSelected }
+                  on: { change: _vm.onFileChange }
                 }),
                 _vm._v(" "),
                 _c("br"),
