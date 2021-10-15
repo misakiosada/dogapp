@@ -162,6 +162,7 @@ export default {
                 for(let i = 0; i < response.data.length; i++) { // データベースからreviewsテーブルのデータを取得
                     this.reviews.push(response.data[i])　　　　　// (responce.data)はfor文でgetしたreviewsテーブルの情報を指しており、reviews[]配列にpushされる。
                 }
+                console.log(this.reviews)
             }, (error) => {
                 console.log(error)
             })

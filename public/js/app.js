@@ -2112,6 +2112,8 @@ __webpack_require__.r(__webpack_exports__);
           _this.reviews.push(response.data[i]); // (responce.data)はfor文でgetしたreviewsテーブルの情報を指しており、reviews[]配列にpushされる。
 
         }
+
+        console.log(_this.reviews);
       }, function (error) {
         console.log(error);
       });
