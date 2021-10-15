@@ -168,17 +168,40 @@ export default {
         },
         addNewReview: function () {
             let formData = new FormData();
-                formData.append('image', this.image);
-                formData.append('placeName', this.placename);
-                formData.append('placeAddress', this.placeAddress);
-                formData.append('content', this.content);
-                formData.append('categoryId', this.categoryId);
-                formData.append('stateId', this.stateId);
-                formData.append('star', this.star);
+            formData.append('image', this.image);
+            formData.append('placeName', this.placeName);
+            formData.append('placeAddress', this.placeAddress);
+            formData.append('content', this.content);
+            formData.append('categoryId', this.categoryId);
+            formData.append('stateId', this.stateId);
+            formData.append('star', this.star);
+            console.log(formData)
+            console.log(formData.has('image'))
+            console.log(this.image)
 
-            axios.defaults.headers['X-CSRF-TOKEN'] = $('meta[name=csrf-token]').attr('content');
-            axios.defaults.headers['content-type'] = 'application/json';
-            axios.post("/reviews", formData)
+            let config = {
+            header : {
+            'Content-Type' : 'multipart/form-data'
+            }
+            }
+
+            //const requestOptions = {
+            //method: "POST",
+            //headers: { "Content-Type": 'multipart/form-data'},
+            //body: formData
+            //};
+            //fetch("/reviews", requestOptions)
+            //.then(response => response.json())
+
+            //axios.defaults.headers['X-CSRF-TOKEN'] = $('meta[name=csrf-token]').attr('content');
+            //axios.defaults.headers['content-type'] = 'application/json';
+            axios.post("/reviews", formData, config)
+                    //placeName: this.placeName,
+                    //placeAddress: this.placeAddress,
+                    //content: this.content,
+                    //categoryId: this.categoryId,
+                    //stateId: this.stateId,
+                    //star: this.star
             .then((response) => {
                 this.reviews.length = 0;
                 console.log(response)
@@ -195,12 +218,12 @@ export default {
             this.stateId = ""
             this.categoryId = ""
             this.star = "" //入力されたデータをデータベースに渡した後からにする
-            this.image = "";
+            this.image = ""
 
         },
 
         onFileChange(e) {
-            this.image = e.target.files; // ファイルを変数に格納
+            this.image = e.target.files[0]; // ファイルを変数に格納
 
         },
 

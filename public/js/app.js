@@ -2121,15 +2121,36 @@ __webpack_require__.r(__webpack_exports__);
 
       var formData = new FormData();
       formData.append('image', this.image);
-      formData.append('placeName', this.placename);
+      formData.append('placeName', this.placeName);
       formData.append('placeAddress', this.placeAddress);
       formData.append('content', this.content);
       formData.append('categoryId', this.categoryId);
       formData.append('stateId', this.stateId);
       formData.append('star', this.star);
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers['X-CSRF-TOKEN'] = jquery__WEBPACK_IMPORTED_MODULE_1___default()('meta[name=csrf-token]').attr('content');
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers['content-type'] = 'application/json';
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/reviews", formData).then(function (response) {
+      console.log(formData);
+      console.log(formData.has('image'));
+      console.log(this.image);
+      var config = {
+        header: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }; //const requestOptions = {
+      //method: "POST",
+      //headers: { "Content-Type": 'multipart/form-data'},
+      //body: formData
+      //};
+      //fetch("/reviews", requestOptions)
+      //.then(response => response.json())
+      //axios.defaults.headers['X-CSRF-TOKEN'] = $('meta[name=csrf-token]').attr('content');
+      //axios.defaults.headers['content-type'] = 'application/json';
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/reviews", formData, config) //placeName: this.placeName,
+      //placeAddress: this.placeAddress,
+      //content: this.content,
+      //categoryId: this.categoryId,
+      //stateId: this.stateId,
+      //star: this.star
+      .then(function (response) {
         _this2.reviews.length = 0;
         console.log(response);
 
@@ -2149,7 +2170,7 @@ __webpack_require__.r(__webpack_exports__);
       this.image = "";
     },
     onFileChange: function onFileChange(e) {
-      this.image = e.target.files; // ファイルを変数に格納
+      this.image = e.target.files[0]; // ファイルを変数に格納
     },
     editReview: function editReview() {
       var _this3 = this;
