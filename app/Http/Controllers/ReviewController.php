@@ -46,13 +46,24 @@ class ReviewController extends Controller
         $place->category_id = $request->input('categoryId');
         $place->save();
 
+        $file = $request->file('image');
+        logger($file); //$fileにformからくる画像の情報をいれる。
+        $imageName = time();
+        $file->getClientOriginalName();//拡張子を含め、アップロードしたファイルのファイル名を取得。time()はタイムスタンプを取得する。
+        $target_path = storage_path('app/public/app/public/uploads/');// public/uploads ディレクトリの完全パスを返す。
+        $file->move($target_path, $imageName); //画像をpublic/uploads/に、$imageNameという名前で挿入。
+
+        logger($target_path);
+        logger($file);
+
         $review = new Review();
         $review->place_id = $place->id;
         $review->stars = request('star');
         $review->content = request('content');
-        $review->image = request('image');
+        $review->image = $imageName;
         $review->user_id = Auth::id();
         $review->save();
+
 
         DB::commit();
         } catch (\Throwable $e) {

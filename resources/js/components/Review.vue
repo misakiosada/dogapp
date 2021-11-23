@@ -41,7 +41,8 @@
        　　　　　　　　　　 </select>
                         <br>
                         <span>Image</span>
-                        <input v-model="image" class="form-control">
+                        <input type="file" @change="onFileChange">
+                        <br>
                         <span>Content</span>
                         <input v-model="content" class="form-control" placeholder="Share details of your experience at the place">
 
@@ -94,6 +95,8 @@
                 <div class="card h-100 m-3" style="width: 24rem;">
                     <div class="d-flex justify-content-between">
                         <h3 class="ml-5 mt-2">{{ review.place.name}}</h3>
+                        <img v-bind:src="'/storage/app/public/uploads/' + review.image" width="200px" height="200px">
+
                         <div>
                             <div class="btn-group dropdown">
                             <i class="fa fa-ellipsis-v p-2 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
@@ -125,7 +128,8 @@ export default {
             categoryId:"",
             stateId:"",
             star:"",
-            image:"",
+            image: {},
+            fileInfo: "",
             reviews:[{
                 id: 0,
                 place:{
@@ -138,7 +142,7 @@ export default {
                     },
                 content:"",
                 star:"",
-                image:""
+                image:"sofa.png"
                 }
 
             ],
@@ -160,23 +164,39 @@ export default {
                 for(let i = 0; i < response.data.length; i++) { // データベースからreviewsテーブルのデータを取得
                     this.reviews.push(response.data[i])　　　　　// (responce.data)はfor文でgetしたreviewsテーブルの情報を指しており、reviews[]配列にpushされる。
                 }
+                console.log(this.reviews)
             }, (error) => {
                 console.log(error)
             })
         },
         addNewReview: function () {
+            let formData = new FormData();
+            formData.append('image', this.image);
+            formData.append('placeName', this.placeName);
+            formData.append('placeAddress', this.placeAddress);
+            formData.append('content', this.content);
+            formData.append('categoryId', this.categoryId);
+            formData.append('stateId', this.stateId);
+            formData.append('star', this.star);
+            console.log(formData)
+            console.log(this.image)
+
+            let config = {
+            header : {
+            'Content-Type' : 'multipart/form-data'
+            }
+            }
+
             axios.defaults.headers['X-CSRF-TOKEN'] = $('meta[name=csrf-token]').attr('content');
             axios.defaults.headers['content-type'] = 'application/json';
-            axios.post("/reviews", {
-                placeName: this.placeName,
-                placeAddress: this.placeAddress,
-                content: this.content,
-                categoryId: this.categoryId,
-                stateId: this.stateId,
-                image: this.image,
-                star: this.star
-
-                }).then((response) => {
+            axios.post("/reviews", formData, config)
+                    //placeName: this.placeName,
+                    //placeAddress: this.placeAddress,
+                    //content: this.content,
+                    //categoryId: this.categoryId,
+                    //stateId: this.stateId,
+                    //star: this.star
+            .then((response) => {
                 this.reviews.length = 0;
                 console.log(response)
                 for (let i = 0; i < response.data.length; i++) {
@@ -191,8 +211,14 @@ export default {
             this.placeAddress = ""
             this.stateId = ""
             this.categoryId = ""
-            this.image = ""
             this.star = "" //入力されたデータをデータベースに渡した後からにする
+            this.image = ""
+
+        },
+
+        onFileChange(e) {
+            this.image = e.target.files[0]; // ファイルを変数に格
+
         },
 
         editReview: function () {

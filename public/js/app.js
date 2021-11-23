@@ -2059,6 +2059,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2071,7 +2074,8 @@ __webpack_require__.r(__webpack_exports__);
       categoryId: "",
       stateId: "",
       star: "",
-      image: "",
+      image: {},
+      fileInfo: "",
       reviews: [{
         id: 0,
         place: {
@@ -2089,7 +2093,7 @@ __webpack_require__.r(__webpack_exports__);
         },
         content: "",
         star: "",
-        image: ""
+        image: "sofa.png"
       }],
       states: [],
       categories: []
@@ -2110,6 +2114,8 @@ __webpack_require__.r(__webpack_exports__);
           _this.reviews.push(response.data[i]); // (responce.data)はfor文でgetしたreviewsテーブルの情報を指しており、reviews[]配列にpushされる。
 
         }
+
+        console.log(_this.reviews);
       }, function (error) {
         console.log(error);
       });
@@ -2117,17 +2123,30 @@ __webpack_require__.r(__webpack_exports__);
     addNewReview: function addNewReview() {
       var _this2 = this;
 
+      var formData = new FormData();
+      formData.append('image', this.image);
+      formData.append('placeName', this.placeName);
+      formData.append('placeAddress', this.placeAddress);
+      formData.append('content', this.content);
+      formData.append('categoryId', this.categoryId);
+      formData.append('stateId', this.stateId);
+      formData.append('star', this.star);
+      console.log(formData);
+      console.log(this.image);
+      var config = {
+        header: {
+          'Content-Type': 'multipart/form-data'
+        }
+      };
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers['X-CSRF-TOKEN'] = jquery__WEBPACK_IMPORTED_MODULE_1___default()('meta[name=csrf-token]').attr('content');
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers['content-type'] = 'application/json';
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/reviews", {
-        placeName: this.placeName,
-        placeAddress: this.placeAddress,
-        content: this.content,
-        categoryId: this.categoryId,
-        stateId: this.stateId,
-        image: this.image,
-        star: this.star
-      }).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/reviews", formData, config) //placeName: this.placeName,
+      //placeAddress: this.placeAddress,
+      //content: this.content,
+      //categoryId: this.categoryId,
+      //stateId: this.stateId,
+      //star: this.star
+      .then(function (response) {
         _this2.reviews.length = 0;
         console.log(response);
 
@@ -2142,8 +2161,12 @@ __webpack_require__.r(__webpack_exports__);
       this.placeAddress = "";
       this.stateId = "";
       this.categoryId = "";
-      this.image = "";
       this.star = ""; //入力されたデータをデータベースに渡した後からにする
+
+      this.image = "";
+    },
+    onFileChange: function onFileChange(e) {
+      this.image = e.target.files[0]; // ファイルを変数に格
     },
     editReview: function editReview() {
       var _this3 = this;
@@ -38143,25 +38166,11 @@ var render = function() {
                 _c("span", [_vm._v("Image")]),
                 _vm._v(" "),
                 _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.image,
-                      expression: "image"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  domProps: { value: _vm.image },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.image = $event.target.value
-                    }
-                  }
+                  attrs: { type: "file" },
+                  on: { change: _vm.onFileChange }
                 }),
+                _vm._v(" "),
+                _c("br"),
                 _vm._v(" "),
                 _c("span", [_vm._v("Content")]),
                 _vm._v(" "),
@@ -38322,6 +38331,14 @@ var render = function() {
                 _c("h3", { staticClass: "ml-5 mt-2" }, [
                   _vm._v(_vm._s(review.place.name))
                 ]),
+                _vm._v(" "),
+                _c("img", {
+                  attrs: {
+                    src: "/storage/app/public/uploads/" + review.image,
+                    width: "200px",
+                    height: "200px"
+                  }
+                }),
                 _vm._v(" "),
                 _c("div", [
                   _c("div", { staticClass: "btn-group dropdown" }, [
