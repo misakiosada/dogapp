@@ -50,7 +50,7 @@ class ReviewController extends Controller
         logger($file); //$fileにformからくる画像の情報をいれる。
         $imageName = time();
         $file->getClientOriginalName();//拡張子を含め、アップロードしたファイルのファイル名を取得。time()はタイムスタンプを取得する。
-        $target_path = storage_path('app/public/uploads/');// public/uploads ディレクトリの完全パスを返す。
+        $target_path = storage_path('app/public/app/public/uploads/');// public/uploads ディレクトリの完全パスを返す。
         $file->move($target_path, $imageName); //画像をpublic/uploads/に、$imageNameという名前で挿入。
 
         logger($target_path);

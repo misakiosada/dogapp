@@ -10,3 +10,5 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 /.history
+/storage/app/public/app/public/*
+!/storage/app/public/app/public/uploads/
