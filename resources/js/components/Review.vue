@@ -95,6 +95,8 @@
                 <div class="card h-100 m-3" style="width: 24rem;">
                     <div class="d-flex justify-content-between">
                         <h3 class="ml-5 mt-2">{{ review.place.name}}</h3>
+                        <img v-bind:src="'/storage/app/public/uploads/' + review.image" width="200px" height="200px">
+
                         <div>
                             <div class="btn-group dropdown">
                             <i class="fa fa-ellipsis-v p-2 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
@@ -126,7 +128,7 @@ export default {
             categoryId:"",
             stateId:"",
             star:"",
-            image:"",
+            image: {},
             fileInfo: "",
             reviews:[{
                 id: 0,
@@ -140,7 +142,7 @@ export default {
                     },
                 content:"",
                 star:"",
-                image:""
+                image:"sofa.png"
                 }
 
             ],
@@ -177,7 +179,6 @@ export default {
             formData.append('stateId', this.stateId);
             formData.append('star', this.star);
             console.log(formData)
-            console.log(formData.has('image'))
             console.log(this.image)
 
             let config = {
@@ -186,16 +187,8 @@ export default {
             }
             }
 
-            //const requestOptions = {
-            //method: "POST",
-            //headers: { "Content-Type": 'multipart/form-data'},
-            //body: formData
-            //};
-            //fetch("/reviews", requestOptions)
-            //.then(response => response.json())
-
-            //axios.defaults.headers['X-CSRF-TOKEN'] = $('meta[name=csrf-token]').attr('content');
-            //axios.defaults.headers['content-type'] = 'application/json';
+            axios.defaults.headers['X-CSRF-TOKEN'] = $('meta[name=csrf-token]').attr('content');
+            axios.defaults.headers['content-type'] = 'application/json';
             axios.post("/reviews", formData, config)
                     //placeName: this.placeName,
                     //placeAddress: this.placeAddress,
@@ -224,7 +217,7 @@ export default {
         },
 
         onFileChange(e) {
-            this.image = e.target.files[0]; // ファイルを変数に格納
+            this.image = e.target.files[0]; // ファイルを変数に格
 
         },
 

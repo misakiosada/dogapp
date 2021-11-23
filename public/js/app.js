@@ -2060,6 +2060,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2072,7 +2074,7 @@ __webpack_require__.r(__webpack_exports__);
       categoryId: "",
       stateId: "",
       star: "",
-      image: "",
+      image: {},
       fileInfo: "",
       reviews: [{
         id: 0,
@@ -2091,7 +2093,7 @@ __webpack_require__.r(__webpack_exports__);
         },
         content: "",
         star: "",
-        image: ""
+        image: "sofa.png"
       }],
       states: [],
       categories: []
@@ -2130,22 +2132,14 @@ __webpack_require__.r(__webpack_exports__);
       formData.append('stateId', this.stateId);
       formData.append('star', this.star);
       console.log(formData);
-      console.log(formData.has('image'));
       console.log(this.image);
       var config = {
         header: {
           'Content-Type': 'multipart/form-data'
         }
-      }; //const requestOptions = {
-      //method: "POST",
-      //headers: { "Content-Type": 'multipart/form-data'},
-      //body: formData
-      //};
-      //fetch("/reviews", requestOptions)
-      //.then(response => response.json())
-      //axios.defaults.headers['X-CSRF-TOKEN'] = $('meta[name=csrf-token]').attr('content');
-      //axios.defaults.headers['content-type'] = 'application/json';
-
+      };
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers['X-CSRF-TOKEN'] = jquery__WEBPACK_IMPORTED_MODULE_1___default()('meta[name=csrf-token]').attr('content');
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.defaults.headers['content-type'] = 'application/json';
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/reviews", formData, config) //placeName: this.placeName,
       //placeAddress: this.placeAddress,
       //content: this.content,
@@ -2172,7 +2166,7 @@ __webpack_require__.r(__webpack_exports__);
       this.image = "";
     },
     onFileChange: function onFileChange(e) {
-      this.image = e.target.files[0]; // ファイルを変数に格納
+      this.image = e.target.files[0]; // ファイルを変数に格
     },
     editReview: function editReview() {
       var _this3 = this;
@@ -38337,6 +38331,14 @@ var render = function() {
                 _c("h3", { staticClass: "ml-5 mt-2" }, [
                   _vm._v(_vm._s(review.place.name))
                 ]),
+                _vm._v(" "),
+                _c("img", {
+                  attrs: {
+                    src: "/storage/app/public/uploads/" + review.image,
+                    width: "200px",
+                    height: "200px"
+                  }
+                }),
                 _vm._v(" "),
                 _c("div", [
                   _c("div", { staticClass: "btn-group dropdown" }, [
