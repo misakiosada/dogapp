@@ -96,7 +96,7 @@ class TodoController extends Controller
     {
         $todo->tags()->attach($tag->id);
 
-        $todos = $goal->todos()->with('tags')->orderBy('done', 'asc')->orderBy('position', 'asc')->get();
+        $todos = $goal->todos()->with('tags')->orderBy('position', 'asc')->get();
 
         return response()->json($todos);
     }
